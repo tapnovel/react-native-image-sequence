@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.util.Base64;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
@@ -45,6 +46,8 @@ public class RCTImageSequenceView extends ImageView {
         protected Bitmap doInBackground(String... params) {
             if (this.uri.startsWith("http")) {
                 return this.loadBitmapByExternalURL(this.uri);
+            } else if (this.uri.startsWith("data:image")) {
+                return this.loadBitmapByBase64String(this.uri);
             }
 
             return this.loadBitmapByLocalResource(this.uri);
@@ -66,6 +69,12 @@ public class RCTImageSequenceView extends ImageView {
             }
 
             return bitmap;
+        }
+
+        private Bitmap loadBitmapByBase64String(String uri) {
+            final String pureBase64Encoded = uri.substring(uri.indexOf(",")  + 1);
+            final byte[] decodedBytes = Base64.decode(pureBase64Encoded, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
         }
 
         @Override
