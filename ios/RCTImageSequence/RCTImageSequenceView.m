@@ -65,6 +65,7 @@
     self.animationImages = images;
     self.animationRepeatCount = _loop ? 0 : 1;
     [self startAnimating];
+    [self performSelector:@selector(animationDidFinish:) withObject:nil afterDelay:self.animationDuration];
 }
 
 - (void)setFramesPerSecond:(NSUInteger)framesPerSecond {
@@ -80,5 +81,12 @@
 
     self.animationRepeatCount = _loop ? 0 : 1;
 }
+
+- (void)animationDidFinish:(SEL)selector {
+  if (self.onAnimationFinish) {
+      self.onAnimationFinish(@{});
+  }
+}
+
 
 @end

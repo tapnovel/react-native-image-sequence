@@ -5,7 +5,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import <React/RCTView.h>
+
 @interface RCTImageSequenceView : UIImageView
 
+@property (nonatomic, copy) RCTBubblingEventBlock onAnimationFinish;
 
 @end
