@@ -3,7 +3,6 @@ package dk.madslee.imageSequence;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.util.Base64;
@@ -17,6 +16,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.RejectedExecutionException;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
+
+import dk.madslee.imageSequence.CustomAnimationDrawable;
 
 public class RCTImageSequenceView extends ImageView {
     private Integer framesPerSecond = 24;
@@ -150,7 +155,14 @@ public class RCTImageSequenceView extends ImageView {
     }
 
     private void setupAnimationDrawable() {
-        AnimationDrawable animationDrawable = new AnimationDrawable();
+        CustomAnimationDrawable animationDrawable = new CustomAnimationDrawable();
+        animationDrawable.setOnAnimationStateListener(new CustomAnimationDrawable.OnAnimationStateListener() {
+            public void onAnimationFinish() {
+                WritableMap map = Arguments.createMap();
+                final ReactContext context = (ReactContext) getContext();
+                context.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "onAnimationFinish", map);
+            }
+        });
         for (int index = 0; index < bitmaps.size(); index++) {
             BitmapDrawable drawable = new BitmapDrawable(this.getResources(), bitmaps.get(index));
             animationDrawable.addFrame(drawable, 1000 / framesPerSecond);

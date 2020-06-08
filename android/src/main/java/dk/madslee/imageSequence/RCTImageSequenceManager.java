@@ -5,9 +5,10 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import com.facebook.react.common.MapBuilder;
 
 import java.util.ArrayList;
-
+import java.util.Map;
 
 public class RCTImageSequenceManager extends SimpleViewManager<RCTImageSequenceView> {
     @Override
@@ -55,5 +56,10 @@ public class RCTImageSequenceManager extends SimpleViewManager<RCTImageSequenceV
     @ReactProp(name = "loop")
     public void setLoop(final RCTImageSequenceView view, Boolean loop) {
         view.setLoop(loop);
+    }
+
+    @Override
+    public Map getExportedCustomDirectEventTypeConstants() {
+        return MapBuilder.of("onAnimationFinish", MapBuilder.of("registrationName", "onAnimationFinish"));
     }
 }
