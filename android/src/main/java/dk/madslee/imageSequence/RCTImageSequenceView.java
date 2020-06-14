@@ -167,7 +167,7 @@ public class RCTImageSequenceView extends ImageView {
     }
 
     private void setupAnimationDrawable() {
-        animationDrawable = new CustomAnimationDrawable();
+        CustomAnimationDrawable animationDrawable = new CustomAnimationDrawable();
         animationDrawable.setOnAnimationStateListener(new CustomAnimationDrawable.OnAnimationStateListener() {
             public void onAnimationFinish() {
                 WritableMap map = Arguments.createMap();
