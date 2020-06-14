@@ -64,6 +64,7 @@
     self.animationDuration = _images.count * (1.0f / _framesPerSecond);
     self.animationImages = _images;
     self.animationDuration = _images.count * (1.0f / _framesPerSecond);
+    [self startAnimating];
     [self performSelector:@selector(animationDidFinish:) withObject:nil afterDelay:self.animationDuration];
 }
 
@@ -83,6 +84,7 @@
 
 - (void)setStart:(NSUInteger)start {
     if(start == 1) {
+        [self stopAnimating];
         [self startAnimating];
     } else {
         [self stopAnimating];
