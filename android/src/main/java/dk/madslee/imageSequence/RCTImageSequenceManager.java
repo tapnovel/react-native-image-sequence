@@ -58,6 +58,18 @@ public class RCTImageSequenceManager extends SimpleViewManager<RCTImageSequenceV
         view.setLoop(loop);
     }
 
+
+    /**
+     * sets if animations is started.
+     *
+     * @param view
+     * @param start
+     */
+    @ReactProp(name = "start")
+    public void setStart(final RCTImageSequenceView view, Boolean start) {
+        view.setStart(start);
+    }
+
     @Override
     public Map getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.of("onAnimationFinish", MapBuilder.of("registrationName", "onAnimationFinish"));

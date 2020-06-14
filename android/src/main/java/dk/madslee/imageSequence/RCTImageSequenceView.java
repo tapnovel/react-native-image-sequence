@@ -146,6 +146,18 @@ public class RCTImageSequenceView extends ImageView {
         }
     }
 
+    public void setStart(Boolean start) {
+        if (this.getImageDrawable() == null) {
+            return;
+        }
+
+        if (start) {
+            this.getImageDrawable().start();
+        } else {
+            this.getImageDrawable().stop();
+        }
+    }
+
     private boolean isLoaded() {
         return !isLoading() && bitmaps != null && !bitmaps.isEmpty();
     }
@@ -155,7 +167,7 @@ public class RCTImageSequenceView extends ImageView {
     }
 
     private void setupAnimationDrawable() {
-        CustomAnimationDrawable animationDrawable = new CustomAnimationDrawable();
+        animationDrawable = new CustomAnimationDrawable();
         animationDrawable.setOnAnimationStateListener(new CustomAnimationDrawable.OnAnimationStateListener() {
             public void onAnimationFinish() {
                 WritableMap map = Arguments.createMap();
@@ -171,6 +183,5 @@ public class RCTImageSequenceView extends ImageView {
         animationDrawable.setOneShot(!this.loop);
 
         this.setImageDrawable(animationDrawable);
-        animationDrawable.start();
     }
 }

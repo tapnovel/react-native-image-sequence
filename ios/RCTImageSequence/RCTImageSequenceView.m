@@ -9,6 +9,7 @@
     NSUInteger _framesPerSecond;
     NSMutableDictionary *_activeTasks;
     NSMutableDictionary *_imagesLoaded;
+    NSMutableArray *_images;
     BOOL _loop;
 }
 
@@ -19,6 +20,7 @@
 
     _activeTasks = [NSMutableDictionary new];
     _imagesLoaded = [NSMutableDictionary new];
+    _images = [NSMutableArray new];
 
     for (NSUInteger index = 0; index < images.count; index++) {
         NSDictionary *item = images[index];
@@ -52,19 +54,16 @@
 }
 
 - (void)onImagesLoaded {
-    NSMutableArray *images = [NSMutableArray new];
     for (NSUInteger index = 0; index < _imagesLoaded.allValues.count; index++) {
         UIImage *image = _imagesLoaded[@(index)];
-        [images addObject:image];
+        [_images addObject:image];
     }
 
     [_imagesLoaded removeAllObjects];
 
-    self.image = nil;
-    self.animationDuration = images.count * (1.0f / _framesPerSecond);
-    self.animationImages = images;
-    self.animationRepeatCount = _loop ? 0 : 1;
-    [self startAnimating];
+    self.animationDuration = _images.count * (1.0f / _framesPerSecond);
+    self.animationImages = _images;
+    self.animationDuration = _images.count * (1.0f / _framesPerSecond);
     [self performSelector:@selector(animationDidFinish:) withObject:nil afterDelay:self.animationDuration];
 }
 
@@ -78,8 +77,16 @@
 
 - (void)setLoop:(NSUInteger)loop {
     _loop = loop;
-
     self.animationRepeatCount = _loop ? 0 : 1;
+
+}
+
+- (void)setStart:(NSUInteger)start {
+    if(start == 1) {
+        [self startAnimating];
+    } else {
+        [self stopAnimating];
+    }
 }
 
 - (void)animationDidFinish:(SEL)selector {
