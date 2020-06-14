@@ -29,6 +29,7 @@ public class RCTImageSequenceView extends ImageView {
     private ArrayList<AsyncTask> activeTasks;
     private HashMap<Integer, Bitmap> bitmaps;
     private RCTResourceDrawableIdHelper resourceDrawableIdHelper;
+    CustomAnimationDrawable animationDrawable;
 
     public RCTImageSequenceView(Context context) {
         super(context);
@@ -147,14 +148,15 @@ public class RCTImageSequenceView extends ImageView {
     }
 
     public void setStart(Boolean start) {
-        if (this.getImageDrawable() == null) {
+        if (animationDrawable == null) {
             return;
         }
 
         if (start) {
-            this.getImageDrawable().start();
+            animationDrawable.stop();
+            animationDrawable.start();
         } else {
-            this.getImageDrawable().stop();
+            animationDrawable.stop();
         }
     }
 
@@ -167,7 +169,7 @@ public class RCTImageSequenceView extends ImageView {
     }
 
     private void setupAnimationDrawable() {
-        CustomAnimationDrawable animationDrawable = new CustomAnimationDrawable();
+        animationDrawable = new CustomAnimationDrawable();
         animationDrawable.setOnAnimationStateListener(new CustomAnimationDrawable.OnAnimationStateListener() {
             public void onAnimationFinish() {
                 WritableMap map = Arguments.createMap();
@@ -183,5 +185,6 @@ public class RCTImageSequenceView extends ImageView {
         animationDrawable.setOneShot(!this.loop);
 
         this.setImageDrawable(animationDrawable);
+        animationDrawable.start();
     }
 }
