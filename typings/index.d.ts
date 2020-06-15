@@ -10,7 +10,7 @@ interface ImageSequenceProps {
     /** Should the sequence loop. Default: true */
     loop?: boolean;
     /** Should the sequence start. Default: true */
-    start?: boolean;
+    startFlag?: boolean;
 }
 
 declare class ImageSequence extends Component<ImageSequenceProps> {

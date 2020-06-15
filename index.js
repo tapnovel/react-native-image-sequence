@@ -28,7 +28,7 @@ ImageSequence.defaultProps = {
   startFrameIndex: 0,
   framesPerSecond: 24,
   loop: true,
-  start: false,
+  startFlag: false,
 };
 
 ImageSequence.propTypes = {
@@ -36,7 +36,7 @@ ImageSequence.propTypes = {
   images: array.isRequired,
   framesPerSecond: number,
   loop: bool,
-  start: bool,
+  startFlag: bool,
 };
 
 const RCTImageSequence = requireNativeComponent('RCTImageSequence', {
@@ -47,7 +47,7 @@ const RCTImageSequence = requireNativeComponent('RCTImageSequence', {
     })).isRequired,
     framesPerSecond: number,
     loop: bool,
-    start: bool,
+    startFlag: bool,
   },
 });
 

@@ -82,7 +82,7 @@
 
 }
 
-- (void)setStart:(NSUInteger)start {
+- (void)setStartFlag:(NSUInteger)startFlag {
     if(start == 1) {
         [self stopAnimating];
         [self startAnimating];
