@@ -25,6 +25,7 @@ import dk.madslee.imageSequence.CustomAnimationDrawable;
 
 public class RCTImageSequenceView extends ImageView {
     private Integer framesPerSecond = 24;
+    private Integer repeatCount = 1;
     private Boolean loop = true;
     private ArrayList<AsyncTask> activeTasks;
     private HashMap<Integer, Bitmap> bitmaps;
@@ -146,6 +147,10 @@ public class RCTImageSequenceView extends ImageView {
         }
     }
 
+    public void setRepeatCount(Integer repeatCount) {
+        this.repeatCount = repeatCount;
+    }
+
     private boolean isLoaded() {
         return !isLoading() && bitmaps != null && !bitmaps.isEmpty();
     }
@@ -163,9 +168,11 @@ public class RCTImageSequenceView extends ImageView {
                 context.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "onAnimationFinish", map);
             }
         });
-        for (int index = 0; index < bitmaps.size(); index++) {
-            BitmapDrawable drawable = new BitmapDrawable(this.getResources(), bitmaps.get(index));
-            animationDrawable.addFrame(drawable, 1000 / framesPerSecond);
+        for (int repeatCount = 0; repeatCount < this.repeatCount; repeatCount++) {
+            for (int index = 0; index < bitmaps.size(); index++) {
+                BitmapDrawable drawable = new BitmapDrawable(this.getResources(), bitmaps.get(index));
+                animationDrawable.addFrame(drawable, 1000 / framesPerSecond);
+            }
         }
 
         animationDrawable.setOneShot(!this.loop);

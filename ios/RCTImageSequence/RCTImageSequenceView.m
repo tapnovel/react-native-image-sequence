@@ -10,6 +10,7 @@
     NSMutableDictionary *_activeTasks;
     NSMutableDictionary *_imagesLoaded;
     BOOL _loop;
+    NSUInteger _repeatCount;
 }
 
 - (void)setImages:(NSArray *)images {
@@ -63,7 +64,11 @@
     self.image = nil;
     self.animationDuration = images.count * (1.0f / _framesPerSecond);
     self.animationImages = images;
-    self.animationRepeatCount = _loop ? 0 : 1;
+    if (_repeatCount <= 1) {
+        self.animationRepeatCount = _loop ? 0 : 1;
+    } else {
+        self.animationRepeatCount = _repeatCount;
+    }
     [self startAnimating];
     [self performSelector:@selector(animationDidFinish:) withObject:nil afterDelay:self.animationDuration];
 }
@@ -79,7 +84,15 @@
 - (void)setLoop:(NSUInteger)loop {
     _loop = loop;
 
-    self.animationRepeatCount = _loop ? 0 : 1;
+    if (_repeatCount <= 1) {
+        self.animationRepeatCount = _loop ? 0 : 1;
+    }
+}
+
+- (void)setRepeatCount:(NSUInteger)repeatCount {
+    _repeatCount = repeatCount;
+
+    self.animationRepeatCount = _repeatCount;
 }
 
 - (void)animationDidFinish:(SEL)selector {

@@ -9,6 +9,8 @@ interface ImageSequenceProps {
     framesPerSecond?: number;
     /** Should the sequence loop. Default: true */
     loop?: boolean;
+
+    repeatCount?: number;
 }
 
 declare class ImageSequence extends Component<ImageSequenceProps> {

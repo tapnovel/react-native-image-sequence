@@ -58,6 +58,11 @@ public class RCTImageSequenceManager extends SimpleViewManager<RCTImageSequenceV
         view.setLoop(loop);
     }
 
+    @ReactProp(name = "repeatCount")
+    public void setRepeatCount(final RCTImageSequenceView view, Integer repeatCount) {
+        view.setRepeatCount(repeatCount);
+    }
+
     @Override
     public Map getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.of("onAnimationFinish", MapBuilder.of("registrationName", "onAnimationFinish"));
