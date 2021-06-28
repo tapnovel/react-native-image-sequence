@@ -8,6 +8,7 @@ import android.util.Log;
 import android.util.Base64;
 import android.os.AsyncTask;
 import android.widget.ImageView;
+import android.view.View;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,11 +31,13 @@ public class RCTImageSequenceView extends ImageView {
     private ArrayList<AsyncTask> activeTasks;
     private HashMap<Integer, Bitmap> bitmaps;
     private RCTResourceDrawableIdHelper resourceDrawableIdHelper;
+    private RCTImageSequenceView self;
 
     public RCTImageSequenceView(Context context) {
         super(context);
 
         resourceDrawableIdHelper = new RCTResourceDrawableIdHelper();
+        self = this;
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -160,6 +163,7 @@ public class RCTImageSequenceView extends ImageView {
             public void onAnimationFinish() {
                 WritableMap map = Arguments.createMap();
                 final ReactContext context = (ReactContext) getContext();
+                self.setVisibility(View.INVISIBLE);
                 context.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "onAnimationFinish", map);
             }
         });
