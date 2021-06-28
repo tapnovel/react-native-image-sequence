@@ -1,38 +1,31 @@
 package dk.madslee.imageSequence;
 
-import android.os.Handler;
 import android.graphics.drawable.AnimationDrawable;
 
 public class CustomAnimationDrawable extends AnimationDrawable {
     private OnAnimationStateListener mListener;
-    private Handler mHandler;
+
+    private Boolean finished = false;
 
     public CustomAnimationDrawable() {
-        mHandler = new Handler();
     }
 
     public void setOnAnimationStateListener(OnAnimationStateListener listener) {
         mListener = listener;
     }
 
-    @Override
-    public void start() {
-        super.start();
-        if(mListener != null) {
-            mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    mListener.onAnimationFinish();
+     @Override
+    public boolean selectDrawable(int idx) {
+        boolean ret = super.selectDrawable(idx);
+        if ((idx != 0) && (idx == getNumberOfFrames() - 1)) {
+            if (!finished) {
+                if (mListener != null) {
+                    finished = true;
                 }
-            }, getTotalDuration());
+                mListener.onAnimationFinish();
+            }
         }
-    }
-
-    public int getTotalDuration() {
-        int duration = 0;
-        for (int i = 0; i < this.getNumberOfFrames(); i++) {
-            duration += this.getDuration(i);
-        }
-        return duration;
+        return ret;
     }
 
     public interface OnAnimationStateListener {

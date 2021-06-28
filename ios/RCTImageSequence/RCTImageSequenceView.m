@@ -66,7 +66,7 @@
         self.animationRepeatCount = _repeatCount;
     }
     [self startAnimating];
-    [self performSelector:@selector(animationDidFinish:) withObject:nil afterDelay:self.animationDuration];
+    [self performSelector:@selector(animationDidFinish:) withObject:nil afterDelay:(self.animationDuration * (_repeatCount <= 1 ? 1 : _repeatCount))];
 }
 
 - (void)setFramesPerSecond:(NSUInteger)framesPerSecond {
