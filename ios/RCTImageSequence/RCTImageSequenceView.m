@@ -39,10 +39,6 @@
 }
 
 - (void)onImageLoadTaskAtIndex:(NSUInteger)index image:(UIImage *)image {
-    if (index == 0) {
-        self.image = image;
-    }
-
     [_activeTasks removeObjectForKey:@(index)];
 
     _imagesLoaded[@(index)] = image;

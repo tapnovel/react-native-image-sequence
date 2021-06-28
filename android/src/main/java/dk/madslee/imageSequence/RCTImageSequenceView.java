@@ -92,11 +92,6 @@ public class RCTImageSequenceView extends ImageView {
     }
 
     private void onTaskCompleted(DownloadImageTask downloadImageTask, Integer index, Bitmap bitmap) {
-        if (index == 0) {
-            // first image should be displayed as soon as possible.
-            this.setImageBitmap(bitmap);
-        }
-
         bitmaps.put(index, bitmap);
         activeTasks.remove(downloadImageTask);
 
